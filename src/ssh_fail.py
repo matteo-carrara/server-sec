@@ -1,7 +1,24 @@
 import sys
+import geocoder
 
 users  = {}
 ipl  = {}
+
+def get_location_info(ip_address):
+    try:
+        # Specify the provider separately
+        location = geocoder.ip(ip_address)
+        location.geojson  # Force geocoding resolution
+
+        print(f"IP: {ip_address}")
+        print(f"City: {location.city}")
+        #print(f"Region: {location.region}")
+        print(f"Country: {location.country}")
+        #print(f"Latitude: {location.latlng[0]}")
+        #print(f"Longitude: {location.latlng[1]}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 
 def add_user(u):
@@ -47,5 +64,29 @@ for line in sys.stdin:
 
 a = sorted_dict = dict(sorted(users.items(), key=lambda item: item[1], reverse=True))
 b = sorted_dict = dict(sorted(ipl.items(), key=lambda item: item[1], reverse=True))
-print(a)
-print(b)
+
+print("**************USERNAMES********************")
+for u in a.keys():
+    print ("- ", u, a[u])
+
+print("""
+.__                   __                                     
+|  |__ _____    ____ |  | __ ___________                     
+|  |  \\__  \ _/ ___\|  |/ // __ \_  __ \                    
+|   Y  \/ __ \\  \___|    <\  ___/|  | \/                    
+|___|  (____  /\___  >__|_ \\___  >__|                       
+     \/     \/     \/     \/    \/                           
+    .___               __                                    
+  __| _/____   _______/  |________  ____ ___.__. ___________ 
+ / __ |/ __ \ /  ___/\   __\_  __ \/  _ <   |  |/ __ \_  __ \\
+/ /_/ \  ___/ \___ \  |  |  |  | \(  <_> )___  \  ___/|  | \/
+\____ |\___  >____  > |__|  |__|   \____// ____|\___  >__|   
+     \/    \/     \/                     \/         \/       
+
+By Matteo Carrara, v1.0.0
+""")      
+for hacker in b.keys():
+    #print(hacker, b[hacker])
+    get_location_info(hacker)
+    print("LOGIN:", b[hacker])
+    print()
